@@ -186,6 +186,51 @@ BEGIN
     INSERT INTO omt_test_failures VALUES(500, 'import', 'transportation_route_member_coalesced 1 route membership expected, got ' || cnt);
   END IF;
 
+  -- Test 510
+
+  -- Closed platform ways are polygons unless area=no or underground
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(14.999, 49.999, 15.004, 50.001, 4326), 3857), 14)
+    WHERE osm_id = 5100 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(510, 'import', 'layer_transportation z14 closed platform polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(14.999, 49.999, 15.004, 50.001, 4326), 3857), 14)
+    WHERE osm_id = 5100 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(510, 'import', 'layer_transportation z14 closed platform line expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(14.999, 49.999, 15.004, 50.001, 4326), 3857), 14)
+    WHERE osm_id = 5101 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(510, 'import', 'layer_transportation z14 area=no platform line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(14.999, 49.999, 15.004, 50.001, 4326), 3857), 14)
+    WHERE osm_id = 5101 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(510, 'import', 'layer_transportation z14 area=no platform polygon expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(14.999, 49.999, 15.004, 50.001, 4326), 3857), 14)
+    WHERE osm_id = 5102 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(510, 'import', 'layer_transportation z14 underground platform line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(14.999, 49.999, 15.004, 50.001, 4326), 3857), 14)
+    WHERE osm_id = 5102 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(510, 'import', 'layer_transportation z14 underground platform polygon expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(14.999, 49.999, 15.004, 50.001, 4326), 3857), 14)
+    WHERE osm_id = 5103 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(510, 'import', 'layer_transportation z14 open platform line expected 1, got ' || cnt);
+  END IF;
+
   -- Test 600
 
   -- verify that atms are imported with correct name which can come from tags like operator or network
