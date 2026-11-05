@@ -1138,7 +1138,7 @@ WHERE geometry && bbox
                          z_order,
                          CASE WHEN class = 'pier' THEN 'pier' ELSE subclass END AS kind,
                          COALESCE(layer, 0) AS layer,
-                         ST_Buffer(geometry, -ZRes(zoom_level) / 8) AS geometry
+                         ST_Buffer(geometry, ZRes(zoom_level) / 8) AS geometry
                   FROM features
                   WHERE zoom_level >= 13
                     AND ST_Dimension(geometry) = 2
