@@ -172,6 +172,39 @@ BEGIN
     INSERT INTO omt_test_failures VALUES(500, 'import', 'transportation_route_member_coalesced 1 route membership expected, got ' || cnt);
   END IF;
 
+  -- Test 540
+
+  -- Paths under a roof, arcade or canopy are marked as covered from z14, other paths and roads are not
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.099, 52.099, 17.102, 52.102, 4326), 3857), 14)
+    WHERE osm_id = 5400 AND covered = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(540, 'import', 'layer_transportation z14 path with covered=yes expected covered=1 on 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.099, 52.099, 17.102, 52.102, 4326), 3857), 13)
+    WHERE osm_id = 5400 AND covered IS NULL;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(540, 'import', 'layer_transportation z13 path with covered=yes expected no covered on 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.099, 52.099, 17.102, 52.102, 4326), 3857), 14)
+    WHERE osm_id = 5401 AND covered IS NULL;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(540, 'import', 'layer_transportation z14 footway with covered=no expected no covered on 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.099, 52.099, 17.102, 52.102, 4326), 3857), 14)
+    WHERE osm_id = 5402 AND covered = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(540, 'import', 'layer_transportation z14 footway with covered=arcade expected covered=1 on 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.099, 52.099, 17.102, 52.102, 4326), 3857), 14)
+    WHERE osm_id = 5403 AND covered IS NULL;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(540, 'import', 'layer_transportation z14 road with covered=yes expected no covered on 1, got ' || cnt);
+  END IF;
+
   -- Test 600
 
   -- verify that atms are imported with correct name which can come from tags like operator or network

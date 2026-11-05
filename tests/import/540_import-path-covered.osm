@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Manual">
+  <node id="540001" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.1000" lon="17.1000" />
+  <node id="540002" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.1000" lon="17.1010" />
+  <node id="540011" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.1005" lon="17.1000" />
+  <node id="540012" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.1005" lon="17.1010" />
+  <node id="540021" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.1010" lon="17.1000" />
+  <node id="540022" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.1010" lon="17.1010" />
+  <node id="540031" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.1015" lon="17.1000" />
+  <node id="540032" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.1015" lon="17.1010" />
+
+  <way id="5400" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="540001" />
+    <nd ref="540002" />
+    <tag k="highway" v="path"/>
+    <tag k="name" v="Covered path"/>
+    <tag k="covered" v="yes"/>
+  </way>
+  <way id="5401" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="540011" />
+    <nd ref="540012" />
+    <tag k="highway" v="footway"/>
+    <tag k="covered" v="no"/>
+  </way>
+  <way id="5402" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="540021" />
+    <nd ref="540022" />
+    <tag k="highway" v="footway"/>
+    <tag k="covered" v="arcade"/>
+  </way>
+  <way id="5403" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="540031" />
+    <nd ref="540032" />
+    <tag k="highway" v="residential"/>
+    <tag k="covered" v="yes"/>
+  </way>
+</osm>
