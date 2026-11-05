@@ -103,7 +103,7 @@ FROM (
                                   -- etldoc: osm_building_polygon -> layer_building:z14_
              DISTINCT ON (osm_id) osm_id,
                                   geometry,
-                                  ceil(COALESCE(height, levels * 3.66, 5))::int AS render_height,
+                                  ceil(COALESCE(height, levels * 3.66, CASE WHEN roof THEN 3.66 ELSE 5 END))::int AS render_height,
                                   floor(COALESCE(min_height, min_level * 3.66, 0))::int AS render_min_height,
                                   material,
                                   colour,

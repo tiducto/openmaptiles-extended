@@ -187,6 +187,18 @@ BEGIN
     INSERT INTO omt_test_failures VALUES(530, 'import', 'layer_building z14 building=yes without roof expected 1, got ' || cnt);
   END IF;
 
+  SELECT COUNT(*) INTO cnt FROM layer_building(ST_Transform(ST_MakeEnvelope(16.999, 51.999, 17.002, 52.001, 4326), 3857), 14)
+    WHERE osm_id = 5300 AND render_height = 4;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(530, 'import', 'layer_building z14 building=roof without height render_height 4 expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_building(ST_Transform(ST_MakeEnvelope(16.999, 51.999, 17.002, 52.001, 4326), 3857), 14)
+    WHERE osm_id = 5301 AND render_height = 5;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(530, 'import', 'layer_building z14 building=yes without height render_height 5 expected 1, got ' || cnt);
+  END IF;
+
   -- Test 600
 
   -- verify that atms are imported with correct name which can come from tags like operator or network
