@@ -208,15 +208,15 @@ BEGIN
   END IF;
 
   SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14)
-    WHERE osm_id = 5203;
+    WHERE osm_id = 5203 AND over = 'pedestrian';
   IF cnt <> 1 THEN
-    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway along area edge expected 1, got ' || cnt);
+    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway along area edge over pedestrian expected 1, got ' || cnt);
   END IF;
 
   SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14)
-    WHERE osm_id = 5203 AND over IS NOT NULL;
-  IF cnt <> 0 THEN
-    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway along area edge with over expected 0, got ' || cnt);
+    WHERE osm_id = 5203 AND over IS NULL;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway along area edge outside the area expected 1, got ' || cnt);
   END IF;
 
   SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14)
