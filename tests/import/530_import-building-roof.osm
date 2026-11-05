@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Manual">
+  <node id="530001" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.0000" lon="17.0000" />
+  <node id="530002" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.0000" lon="17.0010" />
+  <node id="530003" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.0002" lon="17.0010" />
+  <node id="530004" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.0002" lon="17.0000" />
+  <node id="530011" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.0005" lon="17.0000" />
+  <node id="530012" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.0005" lon="17.0003" />
+  <node id="530013" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.0008" lon="17.0003" />
+  <node id="530014" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.0008" lon="17.0000" />
+
+  <way id="5300" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="530001" />
+    <nd ref="530002" />
+    <nd ref="530003" />
+    <nd ref="530004" />
+    <nd ref="530001" />
+    <tag k="building" v="roof"/>
+    <tag k="layer" v="1"/>
+  </way>
+  <way id="5301" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="530011" />
+    <nd ref="530012" />
+    <nd ref="530013" />
+    <nd ref="530014" />
+    <nd ref="530011" />
+    <tag k="building" v="yes"/>
+  </way>
+</osm>

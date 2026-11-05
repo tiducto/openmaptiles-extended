@@ -238,6 +238,21 @@ BEGIN
     INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway pieces do not add up to the footway');
   END IF;
 
+  -- Test 530
+
+  -- Roofs with open sides are marked as roof, other buildings are not
+  SELECT COUNT(*) INTO cnt FROM layer_building(ST_Transform(ST_MakeEnvelope(16.999, 51.999, 17.002, 52.001, 4326), 3857), 14)
+    WHERE osm_id = 5300 AND roof = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(530, 'import', 'layer_building z14 building=roof with roof=1 expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_building(ST_Transform(ST_MakeEnvelope(16.999, 51.999, 17.002, 52.001, 4326), 3857), 14)
+    WHERE osm_id = 5301 AND roof IS NULL;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(530, 'import', 'layer_building z14 building=yes without roof expected 1, got ' || cnt);
+  END IF;
+
   -- Test 600
 
   -- verify that atms are imported with correct name which can come from tags like operator or network

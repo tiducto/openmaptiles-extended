@@ -9,7 +9,7 @@ layer:
     key_field: osm_id
     key_field_as_attribute: no
     srid: 900913
-    query: (SELECT osm_id, geometry, render_height, render_min_height, colour, hide_3d FROM layer_building(!bbox!, z(!scale_denominator!))) AS t
+    query: (SELECT osm_id, geometry, render_height, render_min_height, colour, hide_3d, roof FROM layer_building(!bbox!, z(!scale_denominator!))) AS t
   fields:
     render_height: |
         An approximated height from levels and height of the building or building:part.
@@ -19,6 +19,12 @@ layer:
         Colour
     hide_3d: |
         If True, building (part) should not be rendered in 3D. Currently, [building outlines](https://wiki.openstreetmap.org/wiki/Simple_3D_buildings) are marked as hide_3d.
+    roof:
+      description: |
+          Whether this is a roof with open sides, based on the [`building=roof`](http://wiki.openstreetmap.org/wiki/Tag:building%3Droof) tag:
+          a platform canopy, a shelter or a fuel station roof, which styles may draw apart from enclosed buildings,
+          for example above the platforms and paths it covers.
+      values: [1]
 schema:
   - ./update_building.sql
   - ./building.sql
