@@ -17,7 +17,8 @@ SELECT
     COALESCE(CleanNumeric(min_level), CleanNumeric(buildingmin_level)) AS min_level,
     nullif(material, '') AS material,
     nullif(colour, '') AS colour,
-    FALSE AS hide_3d
+    FALSE AS hide_3d,
+    FALSE AS roof
 FROM osm_building_relation
 WHERE building = ''
   AND ST_GeometryType(geometry) = 'ST_Polygon'
@@ -34,7 +35,8 @@ SELECT
     COALESCE(CleanNumeric(obp.min_level), CleanNumeric(obp.buildingmin_level)) AS min_level,
     nullif(obp.material, '') AS material,
     nullif(obp.colour, '') AS colour,
-    obr.role IS NOT NULL AS hide_3d
+    obr.role IS NOT NULL AS hide_3d,
+    obp.building = 'roof' AS roof
 FROM osm_building_polygon obp
          LEFT JOIN osm_building_relation obr ON
         obp.osm_id >= 0 AND
@@ -51,7 +53,8 @@ CREATE OR REPLACE FUNCTION layer_building(bbox geometry, zoom_level int)
                 render_height     int,
                 render_min_height int,
                 colour            text,
-                hide_3d           boolean
+                hide_3d           boolean,
+                roof              int
             )
 AS
 $$
@@ -79,7 +82,8 @@ SELECT geometry,
                             WHEN 'sandstone' THEN '#b4a995' -- same as stone
                             WHEN 'clay' THEN '#9d8b75' -- same as mud
            END) AS colour,
-       CASE WHEN hide_3d THEN TRUE END AS hide_3d
+       CASE WHEN hide_3d THEN TRUE END AS hide_3d,
+       CASE WHEN roof THEN 1 END AS roof
 FROM (
          SELECT
              -- etldoc: osm_building_block_gen_z13 -> layer_building:z13
@@ -89,7 +93,8 @@ FROM (
              NULL::int AS render_min_height,
              NULL::text AS material,
              NULL::text AS colour,
-             FALSE AS hide_3d
+             FALSE AS hide_3d,
+             FALSE AS roof
          FROM osm_building_block_gen_z13
          WHERE zoom_level = 13
            AND geometry && bbox
@@ -102,7 +107,8 @@ FROM (
                                   floor(COALESCE(min_height, min_level * 3.66, 0))::int AS render_min_height,
                                   material,
                                   colour,
-                                  hide_3d
+                                  hide_3d,
+                                  roof
          FROM osm_all_buildings
          WHERE (levels IS NULL OR levels < 1000)
            AND (min_level IS NULL OR min_level < 1000)
