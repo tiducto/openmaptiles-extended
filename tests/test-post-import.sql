@@ -172,6 +172,58 @@ BEGIN
     INSERT INTO omt_test_failures VALUES(500, 'import', 'transportation_route_member_coalesced 1 route membership expected, got ' || cnt);
   END IF;
 
+  -- Test 520
+
+  -- Paths crossing transportation areas are split and get the kind of area as over
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14)
+    WHERE osm_id = 5202 AND over = 'pedestrian';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway over pedestrian area expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14)
+    WHERE osm_id = 5202 AND over = 'platform';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway over platform expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14)
+    WHERE osm_id = 5202 AND over IS NULL;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway outside areas expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14)
+    WHERE osm_id = 5203;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway along area edge expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14)
+    WHERE osm_id = 5203 AND over IS NOT NULL;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway along area edge with over expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14)
+    WHERE osm_id = 5204 AND over IS NOT NULL;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 bridge footway with over expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14)
+    WHERE osm_id = 5205 AND over IS NOT NULL;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 layer=1 footway with over expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM osm_highway_linestring hl
+    WHERE hl.osm_id = 5202
+      AND abs(ST_Length(hl.geometry) - (SELECT SUM(ST_Length(t.geometry)) FROM layer_transportation(ST_Transform(ST_MakeEnvelope(15.999, 50.999, 16.002, 51.002, 4326), 3857), 14) t WHERE t.osm_id = 5202)) < 0.01;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(520, 'import', 'layer_transportation z14 footway pieces do not add up to the footway');
+  END IF;
+
   -- Test 600
 
   -- verify that atms are imported with correct name which can come from tags like operator or network

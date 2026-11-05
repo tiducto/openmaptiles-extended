@@ -26,6 +26,7 @@ CREATE OR REPLACE FUNCTION layer_transportation(bbox geometry, zoom_level int)
                 layer      int,
                 level      int,
                 indoor     int,
+                over       text,
                 bicycle    text,
                 foot       text,
                 horse      text,
@@ -35,7 +36,9 @@ CREATE OR REPLACE FUNCTION layer_transportation(bbox geometry, zoom_level int)
             )
 AS
 $$
-SELECT osm_id,
+WITH features AS (
+SELECT ROW_NUMBER() OVER () AS feature_id,
+       osm_id,
        geometry,
        CASE
            WHEN highway <> '' OR public_transport <> ''
@@ -79,7 +82,8 @@ SELECT osm_id,
                 END
             ELSE NULL
        END AS official,
-       NULLIF(surface, '') AS surface
+       NULLIF(surface, '') AS surface,
+       z_order
 FROM (
          -- etldoc: osm_transportation_merge_linestring_gen_z4 -> layer_transportation:z4
          SELECT osm_id,
@@ -1116,7 +1120,111 @@ FROM (
              )
      ) AS zoom_levels
 WHERE geometry && bbox
-ORDER BY z_order ASC;
+),
+     areas AS (
+         SELECT ROW_NUMBER() OVER (
+             ORDER BY CASE kind
+                          WHEN 'platform' THEN 0
+                          WHEN 'pier' THEN 1
+                          WHEN 'pedestrian' THEN 2
+                          ELSE 3
+                          END, z_order, feature_id
+             ) AS area_rank,
+                kind,
+                layer,
+                geometry
+         FROM (
+                  SELECT feature_id,
+                         z_order,
+                         CASE WHEN class = 'pier' THEN 'pier' ELSE subclass END AS kind,
+                         COALESCE(layer, 0) AS layer,
+                         ST_Buffer(geometry, -ZRes(zoom_level) / 8) AS geometry
+                  FROM features
+                  WHERE zoom_level >= 13
+                    AND ST_Dimension(geometry) = 2
+                    AND (class = 'pier'
+                      OR class = 'path' AND subclass IN ('platform', 'pier', 'pedestrian', 'footway', 'path',
+                                                         'cycleway', 'bridleway', 'corridor', 'steps'))
+              ) AS shrunk
+         WHERE NOT ST_IsEmpty(geometry)
+     ),
+     paths AS (
+         SELECT feature_id,
+                geometry,
+                COALESCE(layer, 0) AS layer
+         FROM features
+         WHERE zoom_level >= 13
+           AND class = 'path'
+           AND brunnel IS NULL
+           AND indoor IS NULL
+           AND ST_Dimension(geometry) = 1
+     ),
+     inside AS (
+         SELECT *
+         FROM (
+                  SELECT p.feature_id,
+                         a.kind,
+                         a.geometry AS area_geometry,
+                         ST_CollectionExtract(
+                                 CASE
+                                     WHEN earlier.geometry IS NULL THEN ST_Intersection(p.geometry, a.geometry)
+                                     ELSE ST_Difference(ST_Intersection(p.geometry, a.geometry), earlier.geometry)
+                                     END, 2) AS geometry
+                  FROM paths p
+                           JOIN areas a ON a.geometry && p.geometry AND a.layer = p.layer
+                           CROSS JOIN LATERAL (
+                      SELECT ST_Union(e.geometry) AS geometry
+                      FROM areas e
+                      WHERE e.area_rank < a.area_rank
+                        AND e.geometry && p.geometry
+                        AND e.layer = p.layer
+                      ) AS earlier
+              ) AS intersections
+         WHERE NOT ST_IsEmpty(geometry)
+     ),
+     pieces AS (
+         SELECT feature_id, kind, geometry
+         FROM inside
+         UNION ALL
+         SELECT *
+         FROM (
+                  SELECT p.feature_id,
+                         NULL AS kind,
+                         ST_CollectionExtract(ST_Difference(p.geometry, crossed.geometry), 2) AS geometry
+                  FROM paths p
+                           JOIN (
+                      SELECT feature_id, ST_Union(area_geometry) AS geometry
+                      FROM inside
+                      GROUP BY feature_id
+                  ) AS crossed USING (feature_id)
+              ) AS outside
+         WHERE NOT ST_IsEmpty(geometry)
+     )
+SELECT f.osm_id,
+       COALESCE(pc.geometry, f.geometry) AS geometry,
+       f.class,
+       f.subclass,
+       f.network,
+       f.ramp,
+       f.oneway,
+       f.brunnel,
+       f.service,
+       f.access,
+       f.toll,
+       f.expressway,
+       f.layer,
+       f.level,
+       f.indoor,
+       pc.kind AS over,
+       f.bicycle,
+       f.foot,
+       f.horse,
+       f.mtb_scale,
+       f.official,
+       f.surface
+FROM features f
+         LEFT JOIN pieces pc ON pc.feature_id = f.feature_id
+ORDER BY f.z_order ASC;
 $$ LANGUAGE SQL STABLE
                 -- STRICT
                 PARALLEL SAFE;
