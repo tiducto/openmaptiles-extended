@@ -194,6 +194,23 @@ layer:
           value of the [`indoor`](http://wiki.openstreetmap.org/wiki/Key:indoor) tag.
       values:
       - 1
+    over:
+      description: |
+          Filled only on `path` lines from z13: the kind of area polygon of this layer that the line runs across
+          on the same `layer`, so styles can draw a path over a square or a platform differently from one on open
+          ground. Lines are split where they enter and leave an area. Bridges, tunnels, indoor paths and
+          lines running along an area's edge are left out. Where areas overlap, `platform` wins over `pier`,
+          and `pier` over `pedestrian`, which wins over any other kind.
+      values:
+      - platform
+      - pier
+      - pedestrian
+      - footway
+      - path
+      - cycleway
+      - bridleway
+      - corridor
+      - steps
     bicycle:
       description: |
           Original value of the [`bicycle`](http://wiki.openstreetmap.org/wiki/Key:bicycle) tag (highways only).
@@ -219,7 +236,7 @@ layer:
   datasource:
     geometry_field: geometry
     srid: 900913
-    query: (SELECT geometry, class, subclass, network, oneway, ramp, brunnel, service, access, toll, expressway, motorroad, layer, level, indoor, bicycle, foot, horse, mtb_scale, official, surface FROM layer_transportation(!bbox!, z(!scale_denominator!))) AS t
+    query: (SELECT geometry, class, subclass, network, oneway, ramp, brunnel, service, access, toll, expressway, motorroad, layer, level, indoor, over, bicycle, foot, horse, mtb_scale, official, surface FROM layer_transportation(!bbox!, z(!scale_denominator!))) AS t
 schema:
   - ./network_type.sql
   - ./class.sql
