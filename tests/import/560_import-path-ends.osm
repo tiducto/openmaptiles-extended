@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Manual">
+  <node id="560001" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2100" lon="17.2000" />
+  <node id="560002" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2100" lon="17.2010" />
+  <node id="560011" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2110" lon="17.2000" />
+  <node id="560012" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2110" lon="17.2010" />
+  <node id="560021" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2120" lon="17.2000" />
+  <node id="560022" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2120" lon="17.2010" />
+  <node id="560023" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2130" lon="17.2010" />
+  <node id="560031" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2140" lon="17.2000" />
+  <node id="560032" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2140" lon="17.2010" />
+  <node id="560033" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2145" lon="17.2005" />
+  <node id="560041" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2150" lon="17.2000" />
+  <node id="560042" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2150" lon="17.2010" />
+
+  <way id="5600" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="560001" />
+    <nd ref="560002" />
+    <tag k="highway" v="steps"/>
+    <tag k="access" v="no"/>
+  </way>
+  <way id="5601" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="560011" />
+    <nd ref="560012" />
+    <tag k="highway" v="footway"/>
+    <tag k="access" v="private"/>
+    <tag k="foot" v="yes"/>
+  </way>
+  <way id="5602" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="560021" />
+    <nd ref="560022" />
+    <tag k="highway" v="footway"/>
+    <tag k="foot" v="private"/>
+  </way>
+  <way id="5603" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="560022" />
+    <nd ref="560023" />
+    <tag k="highway" v="path"/>
+    <tag k="access" v="private"/>
+  </way>
+  <way id="5604" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="560031" />
+    <nd ref="560032" />
+    <nd ref="560033" />
+    <nd ref="560031" />
+    <tag k="highway" v="footway"/>
+    <tag k="access" v="no"/>
+  </way>
+  <way id="5605" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="560041" />
+    <nd ref="560042" />
+    <tag k="highway" v="service"/>
+    <tag k="access" v="no"/>
+  </way>
+</osm>

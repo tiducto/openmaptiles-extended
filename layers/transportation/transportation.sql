@@ -31,7 +31,8 @@ CREATE OR REPLACE FUNCTION layer_transportation(bbox geometry, zoom_level int)
                 horse      text,
                 mtb_scale  text,
                 official   int,
-                surface    text
+                surface    text,
+                bearing    int
             )
 AS
 $$
@@ -79,7 +80,8 @@ SELECT osm_id,
                 END
             ELSE NULL
        END AS official,
-       NULLIF(surface, '') AS surface
+       NULLIF(surface, '') AS surface,
+       bearing
 FROM (
          -- etldoc: osm_transportation_merge_linestring_gen_z4 -> layer_transportation:z4
          SELECT osm_id,
@@ -111,6 +113,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z4
          WHERE zoom_level = 4
@@ -146,6 +149,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z5
          WHERE zoom_level = 5
@@ -181,6 +185,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z6
          WHERE zoom_level = 6
@@ -216,6 +221,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z7
          WHERE zoom_level = 7
@@ -251,6 +257,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z8
          WHERE zoom_level = 8
@@ -286,6 +293,7 @@ FROM (
                 operator,
                 informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z9
          WHERE zoom_level = 9
@@ -321,6 +329,7 @@ FROM (
                 operator,
                 informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z10
          WHERE zoom_level = 10
@@ -356,6 +365,7 @@ FROM (
                 operator,
                 informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_transportation_merge_linestring_gen_z11
          WHERE zoom_level = 11
@@ -396,6 +406,7 @@ FROM (
                 hl.operator,
                 hl.informal,
                 surface_value(COALESCE(NULLIF(surface, ''), tracktype)) AS "surface",
+                NULL::int AS bearing,
                 hl.z_order
          FROM osm_highway_linestring hl
          LEFT OUTER JOIN osm_transportation_name_network n ON hl.osm_id = n.osm_id
@@ -450,6 +461,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_railway_linestring_gen_z8
          WHERE zoom_level = 8
@@ -488,6 +500,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_railway_linestring_gen_z9
          WHERE zoom_level = 9
@@ -526,6 +539,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_railway_linestring_gen_z10
          WHERE zoom_level = 10
@@ -563,6 +577,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_railway_linestring_gen_z11
          WHERE zoom_level = 11
@@ -600,6 +615,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_railway_linestring_gen_z12
          WHERE zoom_level = 12
@@ -638,6 +654,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_railway_linestring
          WHERE zoom_level = 13
@@ -676,6 +693,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_aerialway_linestring_gen_z12
          WHERE zoom_level = 12
@@ -712,6 +730,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_aerialway_linestring
          WHERE zoom_level >= 13
@@ -747,6 +766,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_shipway_linestring_gen_z4
          WHERE zoom_level = 4
@@ -782,6 +802,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_shipway_linestring_gen_z5
          WHERE zoom_level = 5
@@ -817,6 +838,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_shipway_linestring_gen_z6
          WHERE zoom_level = 6
@@ -852,6 +874,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_shipway_linestring_gen_z7
          WHERE zoom_level = 7
@@ -887,6 +910,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_shipway_linestring_gen_z8
          WHERE zoom_level = 8
@@ -922,6 +946,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_shipway_linestring_gen_z9
          WHERE zoom_level = 9
@@ -957,6 +982,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_shipway_linestring_gen_z10
          WHERE zoom_level = 10
@@ -992,6 +1018,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_shipway_linestring_gen_z11
          WHERE zoom_level = 11
@@ -1027,6 +1054,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_shipway_linestring_gen_z12
          WHERE zoom_level = 12
@@ -1063,6 +1091,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_shipway_linestring
          WHERE zoom_level >= 13
@@ -1106,6 +1135,7 @@ FROM (
                 NULL AS operator,
                 NULL AS informal,
                 NULL AS surface,
+                NULL::int AS bearing,
                 z_order
          FROM osm_highway_polygon
               -- We do not want underground pedestrian areas for now
@@ -1113,6 +1143,59 @@ FROM (
            AND (
                  man_made IN ('bridge', 'pier')
                  OR (is_area AND COALESCE(layer, 0) >= 0)
+             )
+         UNION ALL
+
+         -- etldoc: osm_highway_linestring ->  layer_transportation:z14_
+         SELECT hl.osm_id,
+                ends.geometry,
+                hl.highway,
+                NULL AS construction,
+                NULL AS network,
+                NULL AS railway,
+                NULL AS aerialway,
+                NULL AS shipway,
+                NULL AS public_transport,
+                NULL AS service,
+                CASE WHEN hl.access IN ('private', 'no') THEN 'no' END AS access,
+                NULL::boolean AS toll,
+                FALSE AS is_bridge,
+                FALSE AS is_tunnel,
+                FALSE AS is_ford,
+                NULL::boolean AS expressway,
+                FALSE AS is_ramp,
+                NULL::int AS is_oneway,
+                NULL AS man_made,
+                NULL::int AS layer,
+                NULL::int AS level,
+                NULL::boolean AS indoor,
+                NULL AS bicycle,
+                hl.foot,
+                NULL AS horse,
+                NULL AS mtb_scale,
+                NULL AS operator,
+                NULL AS informal,
+                NULL AS surface,
+                (round(degrees(ST_Azimuth(ends.geometry, ends.inner_point)))::int % 360) AS bearing,
+                hl.z_order
+         FROM osm_highway_linestring hl,
+              LATERAL (VALUES (ST_StartPoint(hl.geometry), ST_PointN(hl.geometry, 2)),
+                              (ST_EndPoint(hl.geometry), ST_PointN(hl.geometry, -2))) AS ends(geometry, inner_point)
+         WHERE zoom_level >= 14
+           AND hl.geometry && bbox
+           AND NOT hl.is_area
+           AND NOT ST_IsClosed(hl.geometry)
+           AND highway_class(hl.highway, '', hl.construction) = 'path'
+           AND path_closed_to_walkers(hl.access, hl.foot)
+           AND NOT EXISTS(
+                 SELECT 1
+                 FROM osm_highway_linestring other
+                 WHERE other.osm_id <> hl.osm_id
+                   AND other.geometry && ends.geometry
+                   AND ST_Intersects(other.geometry, ends.geometry)
+                   AND NOT other.is_area
+                   AND highway_class(other.highway, '', other.construction) = 'path'
+                   AND path_closed_to_walkers(other.access, other.foot)
              )
      ) AS zoom_levels
 WHERE geometry && bbox
