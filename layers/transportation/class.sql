@@ -31,6 +31,14 @@ $$ LANGUAGE SQL IMMUTABLE
                 STRICT
                 PARALLEL SAFE;
 
+CREATE OR REPLACE FUNCTION path_closed_to_walkers(access text, foot text) RETURNS boolean AS
+$$
+SELECT COALESCE(foot IN ('no', 'private'), FALSE)
+    OR (COALESCE(access IN ('no', 'private'), FALSE)
+        AND COALESCE(foot NOT IN ('yes', 'designated', 'permissive', 'customers', 'destination'), TRUE));
+$$ LANGUAGE SQL IMMUTABLE
+                PARALLEL SAFE;
+
 -- Limit service to only the most important values to ensure
 -- we always know the values of service
 CREATE OR REPLACE FUNCTION service_value(service text) RETURNS text AS

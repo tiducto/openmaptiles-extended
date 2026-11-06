@@ -337,6 +337,51 @@ BEGIN
     INSERT INTO omt_test_failures VALUES(550, 'import', 'layer_transportation z14 area:highway=footway multipolygon as a path footway polygon expected 1, got ' || cnt);
   END IF;
 
+  -- Test 560
+
+  -- Paths closed to pedestrians get a point at each end with the direction into the path
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.209, 17.202, 52.216, 4326), 3857), 14)
+    WHERE osm_id = 5600 AND class = 'path' AND subclass = 'steps' AND access = 'no' AND ST_GeometryType(geometry) = 'ST_Point';
+  IF cnt <> 2 THEN
+    INSERT INTO omt_test_failures VALUES(560, 'import', 'layer_transportation z14 access=no steps end points expected 2, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.209, 17.202, 52.216, 4326), 3857), 14)
+    WHERE osm_id = 5600 AND ST_GeometryType(geometry) = 'ST_Point' AND bearing IN (90, 270);
+  IF cnt <> 2 THEN
+    INSERT INTO omt_test_failures VALUES(560, 'import', 'layer_transportation z14 west-east steps end points with bearing 90 or 270 expected 2, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.209, 17.202, 52.216, 4326), 3857), 14)
+    WHERE osm_id = 5601 AND ST_GeometryType(geometry) = 'ST_Point';
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(560, 'import', 'layer_transportation z14 access=private foot=yes end points expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.209, 17.202, 52.216, 4326), 3857), 14)
+    WHERE osm_id IN (5602, 5603) AND ST_GeometryType(geometry) = 'ST_Point';
+  IF cnt <> 2 THEN
+    INSERT INTO omt_test_failures VALUES(560, 'import', 'layer_transportation z14 end points of two joined closed paths expected 2 (shared end left out), got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.209, 17.202, 52.216, 4326), 3857), 14)
+    WHERE osm_id = 5602 AND ST_GeometryType(geometry) = 'ST_Point' AND bearing = 90;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(560, 'import', 'layer_transportation z14 foot=private footway west end point with bearing 90 expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.209, 17.202, 52.216, 4326), 3857), 14)
+    WHERE osm_id IN (5604, 5605) AND ST_GeometryType(geometry) = 'ST_Point';
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(560, 'import', 'layer_transportation z14 end points of a closed ring or a road expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.209, 17.202, 52.216, 4326), 3857), 13)
+    WHERE ST_GeometryType(geometry) = 'ST_Point';
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(560, 'import', 'layer_transportation z13 path end points expected 0, got ' || cnt);
+  END IF;
+
   -- Test 600
 
   -- verify that atms are imported with correct name which can come from tags like operator or network
