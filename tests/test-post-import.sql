@@ -172,6 +172,45 @@ BEGIN
     INSERT INTO omt_test_failures VALUES(500, 'import', 'transportation_route_member_coalesced 1 route membership expected, got ' || cnt);
   END IF;
 
+  -- Test 550
+
+  -- Walkable area:highway surfaces become path polygons without area=yes, other area:highway values don't
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.199, 17.202, 52.206, 4326), 3857), 14)
+    WHERE osm_id = 5500 AND class = 'path' AND subclass = 'footway' AND ST_GeometryType(geometry) = 'ST_Polygon';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(550, 'import', 'layer_transportation z14 area:highway=footway as a path footway polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.199, 17.202, 52.206, 4326), 3857), 14)
+    WHERE osm_id = 5501 AND class = 'path' AND subclass = 'pedestrian';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(550, 'import', 'layer_transportation z14 area:highway=pedestrian as a path pedestrian polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.199, 17.202, 52.206, 4326), 3857), 14)
+    WHERE osm_id = 5502;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(550, 'import', 'layer_transportation z14 area:highway=primary features expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.199, 17.202, 52.206, 4326), 3857), 14)
+    WHERE osm_id = 5503 AND class = 'path' AND subclass = 'footway';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(550, 'import', 'layer_transportation z14 highway=footway area=yes with area:highway=footway as one polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.199, 17.202, 52.206, 4326), 3857), 14)
+    WHERE osm_id = 5504;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(550, 'import', 'layer_transportation z14 underground area:highway=footway features expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.199, 17.202, 52.206, 4326), 3857), 14)
+    WHERE osm_id = -5510 AND class = 'path' AND subclass = 'footway';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(550, 'import', 'layer_transportation z14 area:highway=footway multipolygon as a path footway polygon expected 1, got ' || cnt);
+  END IF;
+
   -- Test 600
 
   -- verify that atms are imported with correct name which can come from tags like operator or network

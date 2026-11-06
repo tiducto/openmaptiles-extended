@@ -429,6 +429,11 @@ tables:
     - *public_transport
     - *man_made
     - *service
+    - name: area_highway
+      key: area:highway
+      type: string
+    - name: mapping_key
+      type: mapping_key
     mapping:
       highway:
       - path
@@ -443,6 +448,14 @@ tables:
       man_made:
       - bridge
       - pier
+      area:highway:
+      - path
+      - cycleway
+      - bridleway
+      - footway
+      - corridor
+      - pedestrian
+      - steps
 
   # etldoc: imposm3 -> highway_point
   highway_point:

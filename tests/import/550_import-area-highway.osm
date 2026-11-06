@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Manual">
+  <node id="550001" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2000" lon="17.2000" />
+  <node id="550002" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2000" lon="17.2010" />
+  <node id="550003" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2005" lon="17.2010" />
+  <node id="550004" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2005" lon="17.2000" />
+  <node id="550011" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2010" lon="17.2000" />
+  <node id="550012" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2010" lon="17.2010" />
+  <node id="550013" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2015" lon="17.2010" />
+  <node id="550014" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2015" lon="17.2000" />
+  <node id="550021" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2020" lon="17.2000" />
+  <node id="550022" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2020" lon="17.2010" />
+  <node id="550023" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2025" lon="17.2010" />
+  <node id="550024" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2025" lon="17.2000" />
+  <node id="550031" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2030" lon="17.2000" />
+  <node id="550032" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2030" lon="17.2010" />
+  <node id="550033" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2035" lon="17.2010" />
+  <node id="550034" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2035" lon="17.2000" />
+  <node id="550041" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2040" lon="17.2000" />
+  <node id="550042" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2040" lon="17.2010" />
+  <node id="550043" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2045" lon="17.2010" />
+  <node id="550044" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2045" lon="17.2000" />
+  <node id="550051" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2050" lon="17.2000" />
+  <node id="550052" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2050" lon="17.2010" />
+  <node id="550053" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2055" lon="17.2010" />
+  <node id="550054" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.2055" lon="17.2000" />
+
+  <way id="5500" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="550001" />
+    <nd ref="550002" />
+    <nd ref="550003" />
+    <nd ref="550004" />
+    <nd ref="550001" />
+    <tag k="area:highway" v="footway"/>
+    <tag k="surface" v="sett"/>
+  </way>
+  <way id="5501" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="550011" />
+    <nd ref="550012" />
+    <nd ref="550013" />
+    <nd ref="550014" />
+    <nd ref="550011" />
+    <tag k="area:highway" v="pedestrian"/>
+  </way>
+  <way id="5502" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="550021" />
+    <nd ref="550022" />
+    <nd ref="550023" />
+    <nd ref="550024" />
+    <nd ref="550021" />
+    <tag k="area:highway" v="primary"/>
+  </way>
+  <way id="5503" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="550031" />
+    <nd ref="550032" />
+    <nd ref="550033" />
+    <nd ref="550034" />
+    <nd ref="550031" />
+    <tag k="highway" v="footway"/>
+    <tag k="area" v="yes"/>
+    <tag k="area:highway" v="footway"/>
+  </way>
+  <way id="5504" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="550041" />
+    <nd ref="550042" />
+    <nd ref="550043" />
+    <nd ref="550044" />
+    <nd ref="550041" />
+    <tag k="area:highway" v="footway"/>
+    <tag k="layer" v="-1"/>
+  </way>
+  <way id="5505" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="550051" />
+    <nd ref="550052" />
+    <nd ref="550053" />
+    <nd ref="550054" />
+    <nd ref="550051" />
+  </way>
+  <relation id="5510" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <member type="way" ref="5505" role="outer"/>
+    <tag k="type" v="multipolygon"/>
+    <tag k="area:highway" v="footway"/>
+  </relation>
+</osm>
