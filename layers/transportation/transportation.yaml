@@ -12,6 +12,10 @@ layer:
       tertiary roads to residential roads and
       foot paths. Styling the roads is the most essential part of the map.
       The `transportation` layer also contains polygons for features like plazas.
+      Besides `highway` areas tagged `area=yes`, the walkable surfaces of
+      [`area:highway`](http://wiki.openstreetmap.org/wiki/Key:area:highway)
+      (`footway`, `pedestrian`, `path`, `cycleway`, `bridleway`, `corridor` and `steps`)
+      become `path` polygons with that value as `subclass`.
   buffer_size: 4
   srs: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over
   fields:
@@ -102,7 +106,8 @@ layer:
           Distinguish more specific classes of railway and path:
           Subclass is value of the
           [`railway`](http://wiki.openstreetmap.org/wiki/Key:railway),
-          [`highway`](http://wiki.openstreetmap.org/wiki/Key:highway) (for paths), or
+          [`highway`](http://wiki.openstreetmap.org/wiki/Key:highway) (for paths),
+          [`area:highway`](http://wiki.openstreetmap.org/wiki/Key:area:highway) (for path polygons outlining a surface), or
           [`public_transport`](http://wiki.openstreetmap.org/wiki/Key:public_transport) (for platforms) tag.
       values:
       - rail

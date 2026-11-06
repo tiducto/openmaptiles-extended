@@ -1138,7 +1138,10 @@ FROM (
          -- etldoc: osm_highway_polygon ->  layer_transportation:z14_
          SELECT osm_id,
                 geometry,
-                highway,
+                CASE
+                    WHEN mapping_key = 'area:highway' THEN area_highway
+                    ELSE highway
+                    END AS highway,
                 NULL AS construction,
                 NULL AS network,
                 NULL AS railway,
@@ -1176,7 +1179,7 @@ FROM (
          WHERE zoom_level >= 13
            AND (
                  man_made IN ('bridge', 'pier')
-                 OR (is_area AND COALESCE(layer, 0) >= 0)
+                 OR ((is_area OR mapping_key = 'area:highway') AND COALESCE(layer, 0) >= 0)
              )
      ) AS zoom_levels
 WHERE geometry && bbox
