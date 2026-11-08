@@ -71,7 +71,7 @@ tables:
     type: relation_member
     filters:
       require:
-        admin_level: [__any__]
+        admin_level: ['2', '3', '4', '5', '6']
         boundary: [administrative]
     columns:
     - name: relation_id

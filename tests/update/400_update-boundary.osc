@@ -19,7 +19,7 @@
 
     <relation id="402" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" changeset="1" user="u" uid="1">
       <member type="way" ref="4003" role="outer"/>
-      <tag k="admin_level" v="8"/>
+      <tag k="admin_level" v="6"/>
       <tag k="boundary" v="administrative"/>
       <tag k="name" v="OpenMapTiles Suburb"/>
       <tag k="place" v="suburb"/>

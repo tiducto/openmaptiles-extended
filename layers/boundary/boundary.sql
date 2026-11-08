@@ -13,7 +13,7 @@ SELECT ST_Simplify(ST_Collect(geometry), ZRes(14)) AS geometry,
        MAX(claimed_by) AS claimed_by,
        BOOL_OR(maritime) AS maritime
 FROM (
-      -- All admin 3-10 boundaries
+      -- All admin 3-6 boundaries
       SELECT osm_id,
              geometry,
              NULL::text AS adm0_l,
@@ -27,7 +27,7 @@ FROM (
              NULLIF(claimed_by, '') AS claimed_by,
              BOOL_OR(maritime) AS maritime
       FROM osm_border_linestring
-      WHERE admin_level BETWEEN 3 AND 10
+      WHERE admin_level BETWEEN 3 AND 6
             AND type = 1 -- ways only
       GROUP BY osm_id, geometry, name, claimed_by
 
@@ -70,7 +70,7 @@ CREATE MATERIALIZED VIEW osm_border_linestring_gen_z12 AS
 (
 SELECT ST_Simplify(geometry, ZRes(13)) AS geometry, adm0_l, adm0_r, admin_level, disputed, name, claimed_by, maritime
 FROM osm_border_linestring_gen_z13
-WHERE admin_level BETWEEN 2 AND 10
+WHERE admin_level BETWEEN 2 AND 6
     ) /* DELAY_MATERIALIZED_VIEW_CREATION */ ;
 CREATE INDEX IF NOT EXISTS osm_border_linestring_gen_z12_idx ON osm_border_linestring_gen_z12 USING gist (geometry);
 
@@ -80,7 +80,7 @@ CREATE MATERIALIZED VIEW osm_border_linestring_gen_z11 AS
 (
 SELECT ST_Simplify(geometry, ZRes(12)) AS geometry, adm0_l, adm0_r, admin_level, disputed, name, claimed_by, maritime
 FROM osm_border_linestring_gen_z12
-WHERE admin_level BETWEEN 2 AND 8
+WHERE admin_level BETWEEN 2 AND 6
     ) /* DELAY_MATERIALIZED_VIEW_CREATION */ ;
 CREATE INDEX IF NOT EXISTS osm_border_linestring_gen_z11_idx ON osm_border_linestring_gen_z11 USING gist (geometry);
 
@@ -590,7 +590,7 @@ SELECT geometry,
        claimed_by,
        maritime
 FROM osm_border_linestring_gen_z11
-WHERE admin_level <= 8
+WHERE admin_level <= 6
     );
 
 -- etldoc: osm_border_linestring_gen_z12 -> boundary_z12

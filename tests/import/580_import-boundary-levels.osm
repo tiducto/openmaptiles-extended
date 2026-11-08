@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Manual">
+  <node id="580001" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="53.0" lon="18.0" />
+  <node id="580002" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="53.0" lon="18.1" />
+  <node id="580003" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="53.1" lon="18.1" />
+  <node id="580004" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="53.1" lon="18.0" />
+  <node id="580005" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="53.0" lon="18.2" />
+  <node id="580006" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="53.1" lon="18.2" />
+  <node id="580007" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="53.05" lon="18.0" />
+  <node id="580008" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="53.05" lon="18.1" />
+  <way id="5800" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="580002" />
+    <nd ref="580001" />
+    <nd ref="580004" />
+    <nd ref="580003" />
+  </way>
+  <way id="5801" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="580002" />
+    <nd ref="580005" />
+    <nd ref="580006" />
+    <nd ref="580003" />
+  </way>
+  <way id="5802" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="580002" />
+    <nd ref="580003" />
+  </way>
+  <way id="5803" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="580007" />
+    <nd ref="580008" />
+  </way>
+  <relation id="580" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" changeset="1" user="u" uid="1">
+    <member type="way" ref="5800" role="outer"/>
+    <member type="way" ref="5802" role="outer"/>
+    <tag k="admin_level" v="6"/>
+    <tag k="boundary" v="administrative"/>
+    <tag k="name" v="OpenMapTiles District"/>
+    <tag k="type" v="boundary"/>
+  </relation>
+  <relation id="581" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" changeset="1" user="u" uid="1">
+    <member type="way" ref="5801" role="outer"/>
+    <member type="way" ref="5802" role="outer"/>
+    <tag k="admin_level" v="8"/>
+    <tag k="boundary" v="administrative"/>
+    <tag k="name" v="OpenMapTiles Town"/>
+    <tag k="type" v="boundary"/>
+  </relation>
+  <relation id="582" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" changeset="1" user="u" uid="1">
+    <member type="way" ref="5803" role="outer"/>
+    <tag k="admin_level" v="10"/>
+    <tag k="boundary" v="administrative"/>
+    <tag k="name" v="OpenMapTiles Quarter"/>
+    <tag k="type" v="boundary"/>
+  </relation>
+</osm>

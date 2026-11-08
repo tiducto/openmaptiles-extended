@@ -59,7 +59,7 @@ BEGIN
   END IF;
 
   -- Test 400
-  SELECT COUNT(DISTINCT relation_id) INTO cnt FROM osm_border_linestring WHERE admin_level=8;
+  SELECT COUNT(DISTINCT relation_id) INTO cnt FROM osm_border_linestring WHERE admin_level=6 AND relation_id BETWEEN -499 AND -400;
   IF cnt <> 1 THEN
     INSERT INTO omt_test_failures VALUES(400, 'import', 'osm_border_linestring city count expected 1, got ' || cnt);
   END IF;
@@ -413,6 +413,32 @@ BEGIN
     WHERE osm_id = 57001 AND subclass = 'swimming_pool' AND access = 'private';
   IF cnt <> 1 THEN
     INSERT INTO omt_test_failures VALUES(570, 'import', 'layer_poi z14 access=private swimming pool polygon with access private expected 1, got ' || cnt);
+  END IF;
+
+  -- Test 580
+
+  -- Boundaries keep only admin_level 2 to 6
+  SELECT COUNT(*) INTO cnt FROM osm_border_linestring WHERE admin_level > 6;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(580, 'import', 'osm_border_linestring admin_level above 6 expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_boundary(ST_Transform(ST_MakeEnvelope(17.95, 52.95, 18.25, 53.15, 4326), 3857), 14)
+    WHERE admin_level = 6;
+  IF cnt <> 2 THEN
+    INSERT INTO omt_test_failures VALUES(580, 'import', 'layer_boundary z14 admin_level 6 lines expected 2, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_boundary(ST_Transform(ST_MakeEnvelope(17.95, 52.95, 18.25, 53.15, 4326), 3857), 14)
+    WHERE admin_level > 6;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(580, 'import', 'layer_boundary z14 admin_level above 6 lines expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_boundary(ST_Transform(ST_MakeEnvelope(17.95, 52.95, 18.25, 53.15, 4326), 3857), 11)
+    WHERE admin_level > 6;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(580, 'import', 'layer_boundary z11 admin_level above 6 lines expected 0, got ' || cnt);
   END IF;
 
   -- Test 600
