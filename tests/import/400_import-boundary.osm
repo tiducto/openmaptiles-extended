@@ -29,7 +29,7 @@
   </way>
   <relation id="400" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" changeset="1" user="u" uid="1">
     <member type="way" ref="4000" role="outer"/>
-    <tag k="admin_level" v="8"/>
+    <tag k="admin_level" v="6"/>
     <tag k="boundary" v="administrative"/>
     <tag k="name" v="OpenMapTiles City"/>
     <tag k="place" v="city"/>

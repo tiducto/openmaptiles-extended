@@ -43,7 +43,7 @@ BEGIN
   END IF;
 
   -- Test 400: Verify new city added
-  SELECT COUNT(DISTINCT relation_id) INTO cnt FROM osm_border_linestring WHERE admin_level=8;
+  SELECT COUNT(DISTINCT relation_id) INTO cnt FROM osm_border_linestring WHERE admin_level=6 AND relation_id BETWEEN -499 AND -400;
   IF cnt <> 2 THEN
     INSERT INTO omt_test_failures VALUES(400, 'update', 'osm_border_linestring city count expected 2, got ' || cnt);
   END IF;
