@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Manual">
+  <node id="570001" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.3000" lon="17.3000">
+    <tag k="amenity" v="toilets"/>
+    <tag k="access" v="private"/>
+  </node>
+  <node id="570002" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.3010" lon="17.3000">
+    <tag k="amenity" v="parking"/>
+    <tag k="access" v="customers"/>
+  </node>
+  <node id="570003" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.3020" lon="17.3000">
+    <tag k="amenity" v="toilets"/>
+    <tag k="access" v="yes"/>
+  </node>
+  <node id="570004" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.3030" lon="17.3000">
+    <tag k="amenity" v="parking"/>
+    <tag k="access" v="no"/>
+  </node>
+  <node id="570011" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.3040" lon="17.3000" />
+  <node id="570012" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.3040" lon="17.3010" />
+  <node id="570013" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.3050" lon="17.3010" />
+  <node id="570014" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.3050" lon="17.3000" />
+
+  <way id="5700" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="570011" />
+    <nd ref="570012" />
+    <nd ref="570013" />
+    <nd ref="570014" />
+    <nd ref="570011" />
+    <tag k="leisure" v="swimming_pool"/>
+    <tag k="access" v="private"/>
+  </way>
+</osm>
