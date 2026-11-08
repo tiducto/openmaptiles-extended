@@ -172,6 +172,39 @@ BEGIN
     INSERT INTO omt_test_failures VALUES(500, 'import', 'transportation_route_member_coalesced 1 route membership expected, got ' || cnt);
   END IF;
 
+  -- Test 570
+
+  -- POIs keep the access tag only when it is private, no or customers
+  SELECT COUNT(*) INTO cnt FROM layer_poi(ST_Transform(ST_MakeEnvelope(17.299, 52.299, 17.302, 52.306, 4326), 3857), 14, 9.55)
+    WHERE osm_id = 5700010 AND subclass = 'toilets' AND access = 'private';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(570, 'import', 'layer_poi z14 access=private toilets with access private expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_poi(ST_Transform(ST_MakeEnvelope(17.299, 52.299, 17.302, 52.306, 4326), 3857), 14, 9.55)
+    WHERE osm_id = 5700020 AND subclass = 'parking' AND access = 'customers';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(570, 'import', 'layer_poi z14 access=customers parking with access customers expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_poi(ST_Transform(ST_MakeEnvelope(17.299, 52.299, 17.302, 52.306, 4326), 3857), 14, 9.55)
+    WHERE osm_id = 5700030 AND subclass = 'toilets' AND access IS NULL;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(570, 'import', 'layer_poi z14 access=yes toilets without access expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_poi(ST_Transform(ST_MakeEnvelope(17.299, 52.299, 17.302, 52.306, 4326), 3857), 14, 9.55)
+    WHERE osm_id = 5700040 AND subclass = 'parking' AND access = 'no';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(570, 'import', 'layer_poi z14 access=no parking with access no expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_poi(ST_Transform(ST_MakeEnvelope(17.299, 52.299, 17.302, 52.306, 4326), 3857), 14, 9.55)
+    WHERE osm_id = 57001 AND subclass = 'swimming_pool' AND access = 'private';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(570, 'import', 'layer_poi z14 access=private swimming pool polygon with access private expected 1, got ' || cnt);
+  END IF;
+
   -- Test 600
 
   -- verify that atms are imported with correct name which can come from tags like operator or network
