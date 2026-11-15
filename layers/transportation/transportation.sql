@@ -1184,7 +1184,7 @@ FROM (
                     WHEN man_made IN ('bridge') THEN TRUE
                     ELSE FALSE
                     END AS is_bridge,
-                FALSE AS is_tunnel,
+                COALESCE(layer, 0) < 0 AS is_tunnel,
                 FALSE AS is_ford,
                 NULL::boolean AS expressway,
                 NULL::boolean AS motorroad,
@@ -1205,11 +1205,11 @@ FROM (
                 NULL::int AS bearing,
                 z_order
          FROM osm_highway_polygon
-              -- We do not want underground pedestrian areas for now
          WHERE zoom_level >= 13
            AND (
                  man_made IN ('bridge', 'pier')
-                 OR ((is_area OR mapping_key = 'area:highway') AND COALESCE(layer, 0) >= 0)
+                 OR is_area
+                 OR mapping_key = 'area:highway'
              )
          UNION ALL
 
@@ -1290,6 +1290,7 @@ WHERE geometry && bbox
                   FROM features
                   WHERE zoom_level >= 13
                     AND ST_Dimension(geometry) = 2
+                    AND brunnel IS DISTINCT FROM 'tunnel'
                     AND (class = 'pier'
                       OR class = 'path' AND subclass IN ('platform', 'pier', 'pedestrian', 'footway', 'path',
                                                          'cycleway', 'bridleway', 'corridor', 'steps'))

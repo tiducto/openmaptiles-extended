@@ -326,9 +326,9 @@ BEGIN
   END IF;
 
   SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.199, 17.202, 52.206, 4326), 3857), 14)
-    WHERE osm_id = 5504;
-  IF cnt <> 0 THEN
-    INSERT INTO omt_test_failures VALUES(550, 'import', 'layer_transportation z14 underground area:highway=footway features expected 0, got ' || cnt);
+    WHERE osm_id = 5504 AND class = 'path' AND subclass = 'footway' AND brunnel = 'tunnel' AND layer = -1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(550, 'import', 'layer_transportation z14 underground area:highway=footway tunnel polygon expected 1, got ' || cnt);
   END IF;
 
   SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.199, 52.199, 17.202, 52.206, 4326), 3857), 14)
@@ -439,6 +439,57 @@ BEGIN
     WHERE admin_level > 6;
   IF cnt <> 0 THEN
     INSERT INTO omt_test_failures VALUES(580, 'import', 'layer_boundary z11 admin_level above 6 lines expected 0, got ' || cnt);
+  END IF;
+
+  -- Test 620
+
+  -- Underground walkable areas are tunnel polygons with their layer, and paths are not split by them
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.599, 52.599, 17.606, 52.601, 4326), 3857), 14)
+    WHERE osm_id = 6200 AND class = 'path' AND subclass = 'footway' AND brunnel = 'tunnel' AND layer = -1 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(620, 'import', 'layer_transportation z14 underground footway area tunnel polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.599, 52.599, 17.606, 52.601, 4326), 3857), 14)
+    WHERE osm_id = 6201 AND class = 'path' AND subclass = 'pedestrian' AND brunnel = 'tunnel' AND layer = -2 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(620, 'import', 'layer_transportation z14 underground pedestrian area tunnel polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.599, 52.599, 17.606, 52.601, 4326), 3857), 14)
+    WHERE osm_id = 6202 AND class = 'path' AND subclass = 'platform' AND brunnel = 'tunnel' AND layer = -1 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(620, 'import', 'layer_transportation z14 underground platform area tunnel polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.599, 52.599, 17.606, 52.601, 4326), 3857), 14)
+    WHERE osm_id = 6203;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(620, 'import', 'layer_transportation z14 surface footway over an underground area as one line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.599, 52.599, 17.606, 52.601, 4326), 3857), 14)
+    WHERE osm_id = 6204;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(620, 'import', 'layer_transportation z14 underground footway across an underground area as one line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.599, 52.599, 17.606, 52.601, 4326), 3857), 14)
+    WHERE osm_id IN (6203, 6204, 6205) AND over IS NOT NULL;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(620, 'import', 'layer_transportation z14 footways across underground areas with over expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.599, 52.599, 17.606, 52.601, 4326), 3857), 14)
+    WHERE osm_id = 6206 AND brunnel IS NULL AND layer IS NULL AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(620, 'import', 'layer_transportation z14 surface pedestrian area without brunnel expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.599, 52.599, 17.606, 52.601, 4326), 3857), 14)
+    WHERE osm_id = 6207 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(620, 'import', 'layer_transportation z14 closed underground footway without area=yes polygon expected 0, got ' || cnt);
   END IF;
 
   -- Test 600
