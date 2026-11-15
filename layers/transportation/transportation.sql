@@ -437,6 +437,11 @@ FROM (
          FROM osm_highway_linestring hl
          LEFT OUTER JOIN osm_transportation_name_network n ON hl.osm_id = n.osm_id
          WHERE zoom_level > 11 AND NOT is_area
+           AND NOT (COALESCE(hl.highway, '') = ''
+                    AND hl.public_transport = 'platform'
+                    AND ST_IsClosed(hl.geometry)
+                    AND COALESCE(hl.layer, 0) >= 0
+                    AND COALESCE(hl.tags -> 'area', '') <> 'no')
            AND
                CASE WHEN zoom_level = 12 THEN
                          CASE WHEN transportation_filter_z12(hl.highway, hl.construction) THEN TRUE
@@ -1176,7 +1181,10 @@ FROM (
                 NULL AS railway,
                 NULL AS aerialway,
                 NULL AS shipway,
-                public_transport,
+                CASE
+                    WHEN COALESCE(highway, '') = '' AND railway = 'platform' THEN 'platform'
+                    ELSE public_transport
+                    END AS public_transport,
                 NULL AS service,
                 NULL::text AS access,
                 NULL::boolean AS toll,
@@ -1209,7 +1217,10 @@ FROM (
          WHERE zoom_level >= 13
            AND (
                  man_made IN ('bridge', 'pier')
-                 OR ((is_area OR mapping_key = 'area:highway') AND COALESCE(layer, 0) >= 0)
+                 OR ((is_area
+                      OR mapping_key = 'area:highway'
+                      OR (COALESCE(highway, '') = '' AND (public_transport = 'platform' OR railway = 'platform')))
+                     AND COALESCE(layer, 0) >= 0)
              )
          UNION ALL
 

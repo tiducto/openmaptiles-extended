@@ -437,6 +437,9 @@ tables:
       key: area
       type: bool
     - *public_transport
+    - name: railway
+      key: railway
+      type: string
     - *man_made
     - *service
     - name: area_highway
@@ -458,6 +461,8 @@ tables:
       man_made:
       - bridge
       - pier
+      railway:
+      - platform
       area:highway:
       - path
       - cycleway

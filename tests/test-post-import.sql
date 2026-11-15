@@ -441,6 +441,99 @@ BEGIN
     INSERT INTO omt_test_failures VALUES(580, 'import', 'layer_boundary z11 admin_level above 6 lines expected 0, got ' || cnt);
   END IF;
 
+  -- Test 590
+
+  -- Closed platform ways without highway are polygons unless area=no or underground, and are then not lines
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5900 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed platform polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5900 AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed platform line expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5901 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 area=no platform line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5901 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 area=no platform polygon expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5902 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 underground platform line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5902 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 underground platform polygon expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5903 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 open platform line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5904 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed railway=platform polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5904 AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed railway=platform line expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5905 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed highway=footway platform line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5905 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed highway=footway platform polygon expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5906 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed public_transport and railway platform polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5906 AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed public_transport and railway platform line expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5907 AND over = 'platform';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 footway piece over the closed platform expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
+    WHERE osm_id = 5907 AND over IS NULL;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 footway pieces off the closed platform expected 1, got ' || cnt);
+  END IF;
+
   -- Test 600
 
   -- verify that atms are imported with correct name which can come from tags like operator or network
