@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Manual">
+  <node id="590001" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4000" />
+  <node id="590002" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4004" />
+  <node id="590003" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4004" />
+  <node id="590004" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4000" />
+  <node id="590011" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4010" />
+  <node id="590012" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4014" />
+  <node id="590013" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4014" />
+  <node id="590014" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4010" />
+  <node id="590021" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4020" />
+  <node id="590022" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4024" />
+  <node id="590023" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4024" />
+  <node id="590024" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4020" />
+  <node id="590031" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4030" />
+  <node id="590032" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4034" />
+  <node id="590041" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4040" />
+  <node id="590042" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4044" />
+  <node id="590043" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4044" />
+  <node id="590044" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4040" />
+  <node id="590051" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4050" />
+  <node id="590052" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4054" />
+  <node id="590053" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4054" />
+  <node id="590054" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4050" />
+  <node id="590061" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4060" />
+  <node id="590062" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4000" lon="17.4064" />
+  <node id="590063" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4064" />
+  <node id="590064" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4004" lon="17.4060" />
+  <node id="590071" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4002" lon="17.3998" />
+  <node id="590072" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.4002" lon="17.4006" />
+
+  <way id="5900" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="590001" />
+    <nd ref="590002" />
+    <nd ref="590003" />
+    <nd ref="590004" />
+    <nd ref="590001" />
+    <tag k="public_transport" v="platform"/>
+    <tag k="name" v="OpenMapTiles Platform Area"/>
+  </way>
+  <way id="5901" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="590011" />
+    <nd ref="590012" />
+    <nd ref="590013" />
+    <nd ref="590014" />
+    <nd ref="590011" />
+    <tag k="public_transport" v="platform"/>
+    <tag k="area" v="no"/>
+  </way>
+  <way id="5902" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="590021" />
+    <nd ref="590022" />
+    <nd ref="590023" />
+    <nd ref="590024" />
+    <nd ref="590021" />
+    <tag k="public_transport" v="platform"/>
+    <tag k="layer" v="-1"/>
+  </way>
+  <way id="5903" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="590031" />
+    <nd ref="590032" />
+    <tag k="public_transport" v="platform"/>
+  </way>
+  <way id="5904" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="590041" />
+    <nd ref="590042" />
+    <nd ref="590043" />
+    <nd ref="590044" />
+    <nd ref="590041" />
+    <tag k="railway" v="platform"/>
+  </way>
+  <way id="5905" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="590051" />
+    <nd ref="590052" />
+    <nd ref="590053" />
+    <nd ref="590054" />
+    <nd ref="590051" />
+    <tag k="highway" v="footway"/>
+    <tag k="public_transport" v="platform"/>
+  </way>
+  <way id="5906" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="590061" />
+    <nd ref="590062" />
+    <nd ref="590063" />
+    <nd ref="590064" />
+    <nd ref="590061" />
+    <tag k="public_transport" v="platform"/>
+    <tag k="railway" v="platform"/>
+  </way>
+  <way id="5907" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="590071" />
+    <nd ref="590072" />
+    <tag k="highway" v="footway"/>
+  </way>
+</osm>
