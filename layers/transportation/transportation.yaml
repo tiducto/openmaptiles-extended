@@ -20,6 +20,11 @@ layer:
       A closed way tagged `public_transport=platform` or `railway=platform` without a `highway` tag,
       at `layer` 0 or above, is a `path` polygon with `subclass` `platform` unless it has `area=no`, and is then not repeated
       as a line. A closed `highway` way that is also a platform stays a line unless it has `area=yes`.
+      Road areas, closed ways of a road `highway` (`service`, `residential`, `track`, ...) tagged
+      `area=yes` and multipolygons with such a `highway`, become polygons whose `class` is the road's
+      class followed by `_area` (`service_area`, `minor_area`, `track_area`, ...), so styles that draw
+      the road classes with line layers don't stroke their outlines. Paths are not split by them
+      and get no `over`.
   buffer_size: 4
   srs: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over
   fields:
@@ -35,6 +40,8 @@ layer:
           shipping ways),
           [`busway`](https://wiki.openstreetmap.org/wiki/Key:busway), or
           [`man_made`](http://wiki.openstreetmap.org/wiki/Key:man_made).
+          Road area polygons take their road's class followed by `_area`, for example `service_area`,
+          `minor_area` or `track_area`.
       values:
         motorway:
           highway: ['motorway', 'motorway_link']

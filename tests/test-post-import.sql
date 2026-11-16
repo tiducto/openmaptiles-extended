@@ -534,6 +534,87 @@ BEGIN
     INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 footway pieces off the closed platform expected 1, got ' || cnt);
   END IF;
 
+  -- Test 610
+
+  -- Road areas are polygons with the road class followed by _area, and paths are not split by them
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6100 AND class = 'service_area' AND subclass IS NULL AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 highway=service area=yes polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6100 AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 highway=service area=yes line expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6101 AND class = 'minor_area' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 highway=residential area=yes polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6102 AND class = 'service' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 closed highway=service line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6102 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 closed highway=service polygon expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6103 AND class = 'track_area' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 highway=track area=yes polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = -6110 AND class = 'service_area' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 highway=service multipolygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6105;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 underground highway=service area=yes features expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6106;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 footway across a road area as one line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6106 AND over IS NOT NULL;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 footway across a road area with over expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6107 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 highway=raceway area=yes polygon expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE osm_id = 6108 AND class = 'service' AND brunnel = 'bridge' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 man_made=bridge highway=service polygon keeps its class expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.499, 52.499, 17.509, 52.501, 4326), 3857), 14)
+    WHERE class LIKE '%\_area' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(610, 'import', 'layer_transportation z14 lines with an _area class expected 0, got ' || cnt);
+  END IF;
+
   -- Test 600
 
   -- verify that atms are imported with correct name which can come from tags like operator or network

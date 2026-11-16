@@ -45,7 +45,14 @@ SELECT ROW_NUMBER() OVER () AS feature_id,
        geometry,
        CASE
            WHEN highway <> '' OR public_transport <> ''
-               THEN highway_class(highway, public_transport, construction)
+               THEN highway_class(highway, public_transport, construction) ||
+                    CASE
+                        WHEN ST_Dimension(geometry) = 2
+                            AND COALESCE(man_made, '') NOT IN ('bridge', 'pier')
+                            AND highway_class(highway, public_transport, construction) <> 'path'
+                            THEN '_area'
+                        ELSE ''
+                        END
            WHEN railway <> '' THEN railway_class(railway)
            WHEN aerialway <> '' THEN 'aerialway'
            WHEN shipway <> '' THEN shipway
@@ -1219,7 +1226,8 @@ FROM (
                  man_made IN ('bridge', 'pier')
                  OR ((is_area
                       OR mapping_key = 'area:highway'
-                      OR (COALESCE(highway, '') = '' AND (public_transport = 'platform' OR railway = 'platform')))
+                      OR (COALESCE(highway, '') = '' AND (public_transport = 'platform' OR railway = 'platform'))
+                      OR (osm_id < 0 AND highway_class(highway, '', '') <> 'path'))
                      AND COALESCE(layer, 0) >= 0)
              )
          UNION ALL
