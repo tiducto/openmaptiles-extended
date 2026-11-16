@@ -17,9 +17,10 @@ layer:
       [`area:highway`](http://wiki.openstreetmap.org/wiki/Key:area:highway)
       (`footway`, `pedestrian`, `path`, `cycleway`, `bridleway`, `corridor` and `steps`)
       become `path` polygons with that value as `subclass`.
-      A closed way tagged `public_transport=platform` or `railway=platform` without a `highway` tag
-      is a `path` polygon with `subclass` `platform` unless it has `area=no`, and is then not repeated
-      as a line. A closed `highway` way that is also a platform stays a line unless it has `area=yes`.
+      A closed way that is a platform by its tags (`public_transport=platform`, `railway=platform` or
+      `highway=platform`, with or without another `highway` tag such as `footway` or `bus_stop`) is a
+      `path` polygon with `subclass` `platform` unless it has `area=no`, and is then not repeated as a
+      line. Open platform ways stay lines.
       Road areas, closed ways of a road `highway` (`service`, `residential`, `track`, ...) tagged
       `area=yes` and multipolygons with such a `highway`, become polygons whose `class` is the road's
       class followed by `_area` (`service_area`, `minor_area`, `track_area`, ...), so styles that draw

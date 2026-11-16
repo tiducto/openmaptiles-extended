@@ -499,15 +499,15 @@ BEGIN
   END IF;
 
   SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
-    WHERE osm_id = 5905 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
-  IF cnt <> 1 THEN
-    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed highway=footway platform line expected 1, got ' || cnt);
+    WHERE osm_id = 5905 AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed highway=footway platform line expected 0, got ' || cnt);
   END IF;
 
   SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
-    WHERE osm_id = 5905 AND ST_Dimension(geometry) = 2;
-  IF cnt <> 0 THEN
-    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed highway=footway platform polygon expected 0, got ' || cnt);
+    WHERE osm_id = 5905 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(590, 'import', 'layer_transportation z14 closed highway=footway platform polygon expected 1, got ' || cnt);
   END IF;
 
   SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.399, 52.399, 17.408, 52.401, 4326), 3857), 14)
@@ -664,6 +664,111 @@ BEGIN
     WHERE osm_id = 6207 AND ST_Dimension(geometry) = 2;
   IF cnt <> 0 THEN
     INSERT INTO omt_test_failures VALUES(620, 'import', 'layer_transportation z14 closed underground footway without area=yes polygon expected 0, got ' || cnt);
+  END IF;
+
+  -- Test 630
+
+  -- Closed platform rings with a highway tag are platform polygons unless area=no, and are then not lines
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6300 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 closed highway=platform polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6300 AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 closed highway=platform line expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6301 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 closed highway=platform public_transport=platform polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6301 AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 closed highway=platform public_transport=platform line expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6302 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 closed footway platform polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6302 AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 closed footway platform line expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6303 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 closed bus_stop platform polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6303 AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 closed bus_stop platform line expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6304 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 area=no platform ring line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6304 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 area=no platform ring polygon expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6305 AND class = 'path' AND subclass = 'platform' AND ST_Dimension(geometry) = 1;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 open highway=platform line expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6305 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 open highway=platform polygon expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6306 AND class = 'path' AND subclass = 'platform' AND brunnel = 'tunnel' AND layer = -1 AND ST_Dimension(geometry) = 2;
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 underground platform ring tunnel polygon expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6306 AND ST_Dimension(geometry) = 1;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 underground platform ring line expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6307;
+  IF cnt <> 0 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 closed highway=bus_stop without public_transport features expected 0, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6308 AND over = 'platform';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 footway piece over the highway=platform ring expected 1, got ' || cnt);
+  END IF;
+
+  SELECT COUNT(*) INTO cnt FROM layer_transportation(ST_Transform(ST_MakeEnvelope(17.699, 52.699, 17.709, 52.701, 4326), 3857), 14)
+    WHERE osm_id = 6309 AND over = 'platform';
+  IF cnt <> 1 THEN
+    INSERT INTO omt_test_failures VALUES(630, 'import', 'layer_transportation z14 footway piece over the footway platform ring expected 1, got ' || cnt);
   END IF;
 
   -- Test 600
