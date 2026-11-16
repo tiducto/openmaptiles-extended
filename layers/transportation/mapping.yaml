@@ -473,6 +473,7 @@ tables:
       - service
       - track
       - busway
+      - platform
       public_transport:
       - platform
       man_made:
