@@ -17,14 +17,16 @@ layer:
       [`area:highway`](http://wiki.openstreetmap.org/wiki/Key:area:highway)
       (`footway`, `pedestrian`, `path`, `cycleway`, `bridleway`, `corridor` and `steps`)
       become `path` polygons with that value as `subclass`.
-      A closed way tagged `public_transport=platform` or `railway=platform` without a `highway` tag,
-      at `layer` 0 or above, is a `path` polygon with `subclass` `platform` unless it has `area=no`, and is then not repeated
+      A closed way tagged `public_transport=platform` or `railway=platform` without a `highway` tag
+      is a `path` polygon with `subclass` `platform` unless it has `area=no`, and is then not repeated
       as a line. A closed `highway` way that is also a platform stays a line unless it has `area=yes`.
       Road areas, closed ways of a road `highway` (`service`, `residential`, `track`, ...) tagged
       `area=yes` and multipolygons with such a `highway`, become polygons whose `class` is the road's
       class followed by `_area` (`service_area`, `minor_area`, `track_area`, ...), so styles that draw
       the road classes with line layers don't stroke their outlines. Paths are not split by them
       and get no `over`.
+      Walkable area polygons below the ground (a negative `layer`) are kept with `brunnel` `tunnel`
+      and their `layer`; they don't split paths and give them no `over`.
   buffer_size: 4
   srs: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over
   fields:
@@ -213,8 +215,9 @@ layer:
           Filled only on `path` lines from z13: the kind of area polygon of this layer that the line runs across
           on the same `layer`, so styles can draw a path over a square or a platform differently from one on open
           ground. Lines are split where they enter and leave an area, and a line running along an area's edge
-          counts as running across it. Bridges, tunnels and indoor paths are left out. Where areas overlap,
-          `platform` wins over `pier`, and `pier` over `pedestrian`, which wins over any other kind.
+          counts as running across it. Bridges, tunnels and indoor paths are left out, and so are areas below
+          the ground (`brunnel` `tunnel`). Where areas overlap, `platform` wins over `pier`, and `pier` over
+          `pedestrian`, which wins over any other kind.
       values:
       - platform
       - pier

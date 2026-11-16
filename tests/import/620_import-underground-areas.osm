@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="Manual">
+  <node id="620001" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6000" lon="17.6000" />
+  <node id="620002" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6000" lon="17.6004" />
+  <node id="620003" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6004" lon="17.6004" />
+  <node id="620004" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6004" lon="17.6000" />
+  <node id="620011" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6000" lon="17.6010" />
+  <node id="620012" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6000" lon="17.6014" />
+  <node id="620013" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6004" lon="17.6014" />
+  <node id="620014" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6004" lon="17.6010" />
+  <node id="620021" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6000" lon="17.6020" />
+  <node id="620022" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6000" lon="17.6024" />
+  <node id="620023" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6004" lon="17.6024" />
+  <node id="620024" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6004" lon="17.6020" />
+  <node id="620031" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6002" lon="17.5998" />
+  <node id="620032" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6002" lon="17.6006" />
+  <node id="620041" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6002" lon="17.6008" />
+  <node id="620042" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6002" lon="17.6016" />
+  <node id="620051" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6002" lon="17.6018" />
+  <node id="620052" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6002" lon="17.6026" />
+  <node id="620061" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6000" lon="17.6030" />
+  <node id="620062" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6000" lon="17.6034" />
+  <node id="620063" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6004" lon="17.6034" />
+  <node id="620064" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6004" lon="17.6030" />
+  <node id="620071" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6000" lon="17.6040" />
+  <node id="620072" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6000" lon="17.6044" />
+  <node id="620073" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6004" lon="17.6044" />
+  <node id="620074" visible="true" timestamp="2019-01-01T00:00:00Z" version="1" lat="52.6004" lon="17.6040" />
+
+  <way id="6200" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="620001" />
+    <nd ref="620002" />
+    <nd ref="620003" />
+    <nd ref="620004" />
+    <nd ref="620001" />
+    <tag k="highway" v="footway"/>
+    <tag k="area" v="yes"/>
+    <tag k="layer" v="-1"/>
+  </way>
+  <way id="6201" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="620011" />
+    <nd ref="620012" />
+    <nd ref="620013" />
+    <nd ref="620014" />
+    <nd ref="620011" />
+    <tag k="highway" v="pedestrian"/>
+    <tag k="area" v="yes"/>
+    <tag k="layer" v="-2"/>
+  </way>
+  <way id="6202" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="620021" />
+    <nd ref="620022" />
+    <nd ref="620023" />
+    <nd ref="620024" />
+    <nd ref="620021" />
+    <tag k="public_transport" v="platform"/>
+    <tag k="railway" v="platform"/>
+    <tag k="area" v="yes"/>
+    <tag k="layer" v="-1"/>
+  </way>
+  <way id="6203" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="620031" />
+    <nd ref="620032" />
+    <tag k="highway" v="footway"/>
+  </way>
+  <way id="6204" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="620041" />
+    <nd ref="620042" />
+    <tag k="highway" v="footway"/>
+    <tag k="layer" v="-2"/>
+  </way>
+  <way id="6205" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="620051" />
+    <nd ref="620052" />
+    <tag k="highway" v="footway"/>
+    <tag k="layer" v="-1"/>
+    <tag k="tunnel" v="yes"/>
+  </way>
+  <way id="6206" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="620061" />
+    <nd ref="620062" />
+    <nd ref="620063" />
+    <nd ref="620064" />
+    <nd ref="620061" />
+    <tag k="highway" v="pedestrian"/>
+    <tag k="area" v="yes"/>
+  </way>
+  <way id="6207" version="1" timestamp="2019-01-01T00:00:00Z" visible="true">
+    <nd ref="620071" />
+    <nd ref="620072" />
+    <nd ref="620073" />
+    <nd ref="620074" />
+    <nd ref="620071" />
+    <tag k="highway" v="footway"/>
+    <tag k="layer" v="-1"/>
+  </way>
+</osm>
